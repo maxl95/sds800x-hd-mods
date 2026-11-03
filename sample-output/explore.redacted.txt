@@ -1,0 +1,54 @@
+######## SDS800X HD EXPLORE (REDACTED SAMPLE) ########
+# All device identifiers replaced with placeholders. Trimmed to the interesting parts.
+
+===== KERNEL / OS =====
+Linux buildroot 5.10.0+ #38 SMP <date> aarch64 GNU/Linux
+NAME=Buildroot
+VERSION_ID=2021.02.6
+PRETTY_NAME="Buildroot 2021.02.6"
+
+===== CPU / MEM =====
+CPU part : 0xd03        # Cortex-A53
+Hardware : Xilinx ZUP   # Zynq UltraScale+ MPSoC
+MemTotal: 480396 kB
+
+===== STORAGE: mounts / partitions =====
+/dev/root                     on /                            ext4 (ro->rw)
+/dev/mmcblk0p10               on /usr/bin/siglent             ext4 (ro)
+/dev/mmcblk0p9                on /usr/bin/siglent/firmdata0   ext4 (ro)
+/dev/mmcblk0p12               on /usr/bin/siglent/usr         ext4 (rw)
+/dev/mmcblk0p8                on /mnt/logo                    vfat (rw)   # boot logo
+mmcblk0: p1 p2 < p5 p6 p7 p8 p9 p10 p11 p12 >                            # p11 (~120MB) unmounted
+mmcblk0boot0 / mmcblk0boot1 (2 MiB each)                                 # eMMC boot
+
+===== LISTENING PORTS =====
+22 (ssh/dropbear)  80 (http/lighttpd+php)  111 (rpcbind)  21 (ftp)
+139/445 (smb)  5900 (vnc)  5024 (scpi-telnet)  5025 (scpi-raw)
+
+===== NETWORK =====
+eth0  link/ether XX:XX:XX:XX:XX:XX
+inet  <SCOPE-IP>/24
+
+===== IDENTITY (redacted) =====
+Model      : SDS8xxX HD           # (your specific model)
+Serial     : SDSxxxxxxxxx
+Hostname   : SDSxxxxxHD
+
+===== DISPLAY =====
+/dev/fb0  name=siglent  1024x600  32bpp  stride=4096
+/dev/fb1  (second video path; HDMI on populated units)
+QT_QPA_PLATFORM=linuxfb:fb=/dev/fb0:size=1024x600:mmsize=222x125:rotation=0
+xilinx-vdma 80000000.dma / 80020000.dma  Probed   # FPGA drives the display
+Goodix-TS  X_MAX:1024 Y_MAX:600                    # capacitive touch
+
+===== LICENSE / OPTIONS (from the app binary) =====
+license_module_t, drv_license_t, installOption(), autoInstallUdiskLicense()
+"Input license match bandwidth"  "Input license match mem_depth"
+mem-depth tiers: 10/20/50/100/200/500 Mpts ; models: SDS800X / SDS800XEDU / SDS800XHD
+SCPI: LICENSE_KEY, LICENSE_ID?, MD5_SRLN?   # license tied to serial
+
+===== TOOLING ON DEVICE =====
+gdb, gdbserver, strings, hexedit, devmem, i2c*, mtd*, flash*, fw_printenv/setenv, mmc, dd, mkpasswd
+(no compiler on device)
+
+######## END ########
