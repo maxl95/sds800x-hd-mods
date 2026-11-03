@@ -36,7 +36,7 @@ Hostname   : SDSxxxxxHD
 
 ===== DISPLAY =====
 /dev/fb0  name=siglent  1024x600  32bpp  stride=4096
-/dev/fb1  (second video path; HDMI on populated units)
+/dev/fb1  (secondary/off-screen buffer, e.g. VNC; NOT a monitor output)
 QT_QPA_PLATFORM=linuxfb:fb=/dev/fb0:size=1024x600:mmsize=222x125:rotation=0
 xilinx-vdma 80000000.dma / 80020000.dma  Probed   # FPGA drives the display
 Goodix-TS  X_MAX:1024 Y_MAX:600                    # capacitive touch

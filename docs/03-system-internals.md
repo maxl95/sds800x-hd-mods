@@ -50,12 +50,28 @@ Rich on-device toolset: `gdb`, `gdbserver`, `strings`, `hexedit`, `devmem`, `i2c
   (name `siglent`, **1024×600, 32 bpp**). No DRM/KMS, no DirectFB for the app, no GPU.
 - Pixels reach the panel through the **FPGA via AXI VDMA**. The FPGA generates the display
   timing itself — there is no separate LCD-controller chip.
-- There are **two framebuffers** (`fb0`, `fb1`) and two VDMA engines: `fb0` = internal LCD,
-  `fb1` = **HDMI** (class `hdmi_module_t` in the app). Note the HDMI connector is **not
-  populated on all models**.
+- There are **two framebuffers** (`fb0`, `fb1`). `fb0` is the internal LCD; `fb1` appears to
+  be a secondary/off-screen buffer (e.g. for VNC), **not** a physical monitor output.
+- **There is no HDMI video output.** The HDMI-shaped socket on the front panel is **not** a
+  display output — it is the **MSO / logic-analyzer connector** (see below). The app's
+  `hdmi_module_t` / `acq_cfg_hdmi_reset` belong to the **acquisition** subsystem, not display.
 - Touch: **Goodix** capacitive controller via evdev (`/dev/input/event0`), panel 1024×600.
 - **VNC** (port 5900, configurable via SCPI) reads `fb0` and serves the screen over the
-  network — effectively a wireless "external monitor".
+  network — this is the real "external monitor", over LAN.
+
+## Digital / MSO (logic analyzer) & external instruments
+
+- The **HDMI-shaped front connector carries LVDS**, not HDMI video. The **SLA1016** 16-channel
+  logic pod plugs in here. Data flows pod → LVDS → the **`sbus`** acquisition engine
+  (`sbus_drv`) → DDR3 buffer → digital waveform + protocol decode (I²C/SPI/UART/CAN/LIN).
+  Relevant strings: `MSO LVDS`, `acq_cfg_hdmi_reset`, `acq_drv_func_digital_sla1016_t`.
+- **MSO is a licensed option** (`bu_cfg_if_mso_get_license_type`): using the pod needs both the
+  SLA1016 **and** the MSO license.
+- The **Wave-Gen** menu, by contrast, controls an **external Siglent SDG over USB** (USB-TMC
+  host, `*IDN?` detection; supported: SDG1000X/2000X/6000X/6000X-E). It is **not** a built-in
+  generator on this model — "device not recognized" means no supported SDG is attached.
+- There is also an **active analog probe** auto-ID system (`CProbeBase`, `ProbeMcu::ProbeType`)
+  that reads a probe's EEPROM/MCU over the BNC for gain/atten/degauss.
 
 ### Drawing your own content on the LCD
 

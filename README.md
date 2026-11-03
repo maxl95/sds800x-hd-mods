@@ -64,7 +64,7 @@ See [docs/02-enable-ssh.md](docs/02-enable-ssh.md) for the full, reversible proc
 | Decode/repack `.ADS` | ✅ Tool with byte-identical round-trip |
 | Developer-options menu password | ✅ Recovered from firmware (firmware-wide constant) |
 | Persistent root SSH | ✅ Works, reversible |
-| Understand display/video path | ✅ Framebuffer → FPGA → LCD; HDMI capable (not on all units) |
+| Understand display/video path | ✅ Framebuffer → FPGA → LCD; no HDMI video out (front "HDMI" = MSO/LVDS port) |
 | License / options mechanism | ◐ Mapped observationally (no keygen provided) |
 | USB Wi-Fi dongle | ◐ Assessed — not plug-and-play, see docs/05 |
 | Run custom ARM64 binaries | ✅ Cross-compile + `scp`, runs as root |
